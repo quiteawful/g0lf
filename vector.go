@@ -39,3 +39,9 @@ func Dotp(a, b *Vec) float64 {
 func (v *Vec) length() float64 {
 	return math.Sqrt(Dotp(v, v))
 }
+
+func (v *Vec) rotate(rad float64){
+	nx := v[0] * math.Cos(rad) - v[1] * math.Sin(rad)
+	ny := v[0] * math.Sin(rad) + v[1] * math.Cos(rad)
+	v[0], v[1] = nx, ny
+}
