@@ -23,6 +23,11 @@ func main() {
 	testBahn.hole = Vec{75.0, 15.0}
 	testBahn.Print()
 
+	testline := Line{Vec{0, 0}, Vec{1, 1}}
+	wall := Line{Vec{0, 10}, Vec{10, 10}}
+	fmt.Println(Intersect2(wall, testline))
+	fmt.Println(Intersect2(testline, wall))
+
 }
 
 func (b *Bahn) Print() {

@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Line [2]Vec
 
 func (l *Line) Slope() (k float64, px float64, py float64) {
@@ -23,9 +25,12 @@ func (l *Line) Slope() (k float64, px float64, py float64) {
 func Intersect2(a Line, b Line) Vec {
 	ka, pax, pay := a.Slope()
 	kb, pbx, pby := b.Slope()
-
-	x := (kb*pbx - pby - ka*pax + pay)
-	y := kb*(x-pbx) + pby
+	fmt.Println(ka, pax, pay)
+	fmt.Println(kb, pbx, pby)
+	x := (pby - pay) / (ka - kb)
+	y := kb*x + pby
+	//	x := (kb*pbx - pby - ka*pax + pay)
+	//	y := kb*(x-pbx) + pby
 
 	return Vec{x, y}
 }
