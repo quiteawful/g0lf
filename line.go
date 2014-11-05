@@ -1,9 +1,10 @@
 package main
 
-import "fmt"
+import "math"
 
 type Line [2]Vec
 
+//Slope returns line parameters in slope form
 func (l *Line) Slope() (k float64, px float64, py float64) {
 
 	p1 := Vec{0, 0}
@@ -22,15 +23,17 @@ func (l *Line) Slope() (k float64, px float64, py float64) {
 	return
 }
 
+//Intersect2 returns the intersection point of Line a and b as Vec
 func Intersect2(a Line, b Line) Vec {
-	ka, pax, pay := a.Slope()
-	kb, pbx, pby := b.Slope()
-	fmt.Println(ka, pax, pay)
-	fmt.Println(kb, pbx, pby)
+	ka, _, pay := a.Slope()
+	kb, _, pby := b.Slope()
 	x := (pby - pay) / (ka - kb)
 	y := kb*x + pby
-	//	x := (kb*pbx - pby - ka*pax + pay)
-	//	y := kb*(x-pbx) + pby
-
 	return Vec{x, y}
+}
+
+func LineAngle(a Line, b Line) float64 {
+	wa := math.Atan2(a[0][1]-a[1][1],a[0][0]-a[1][0])
+	wb := math.Atan2(b[0][1]-b[1][1],b[0][0]-b[1][0])
+	return 2*math.Pi-math.Abs(wa-wb)
 }
