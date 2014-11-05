@@ -2,23 +2,26 @@ package main
 
 import "math"
 
-type Line [2]Vec
+type Line struct {
+	p1 Vec
+	p2 Vec
+}
 
 //Slope returns line parameters in slope form
 func (l *Line) Slope() (k float64, px float64, py float64) {
 
-	p1 := Vec{0, 0}
-	p2 := Vec{0, 0}
+	pm := Vec{0, 0}
+	pn := Vec{0, 0}
 
-	if l[0].length() > l[1].length() {
-		p1, p2 = l[1], l[0]
+	if l.p1.length() > l.p2.length() {
+		pm, pn = l.p2, l.p1
 	} else {
-		p1, p2 = l[0], l[1]
+		pm, pn = l.p1, l.p2
 	}
 
-	k = (p2[1] - p1[1]) / (p2[0] - p1[0])
-	px = p1[0]
-	py = p1[1]
+	k = (pm.y - pn.y) / (pm.x - pn.x)
+	px = pm.x
+	py = pm.y
 
 	return
 }
@@ -33,7 +36,7 @@ func Intersect2(a Line, b Line) Vec {
 }
 
 func LineAngle(a Line, b Line) float64 {
-	wa := math.Atan2(a[0][1]-a[1][1],a[0][0]-a[1][0])
-	wb := math.Atan2(b[0][1]-b[1][1],b[0][0]-b[1][0])
-	return 2*math.Pi-math.Abs(wa-wb)
+	wa := math.Atan2(a.p1.y-a.p2.y, a.p1.x-a.p2.x)
+	wb := math.Atan2(b.p1.y-b.p2.y, b.p1.x-b.p2.x)
+	return 2*math.Pi - math.Abs(wa-wb)
 }

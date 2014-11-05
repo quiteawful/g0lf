@@ -2,21 +2,24 @@ package main
 
 import "math"
 
-type Vec [2]float64
+type Vec struct {
+	x float64
+	y float64
+}
 
 const precision = 0.0000001
 
 // Add adds vector a to v
 func (v *Vec) Add(a *Vec) *Vec {
-	v[0] = v[0] + a[0]
-	v[1] = v[1] + a[1]
+	v.x = v.x + a.x
+	v.y = v.y + a.y
 	return v
 }
 
 // Sub substracts vector a from v
 func (v *Vec) Sub(a *Vec) *Vec {
-	v[0] = v[0] - a[0]
-	v[1] = v[1] - a[1]
+	v.x = v.x - a.x
+	v.y = v.y - a.y
 	return v
 }
 
@@ -24,7 +27,7 @@ func (v *Vec) Sub(a *Vec) *Vec {
 // is smaller than the defined precision
 func (v *Vec) Equals(a *Vec) bool {
 	diff := v.Sub(a)
-	if diff[0] < precision && diff[1] < precision {
+	if diff.x < precision && diff.y < precision {
 		return true
 	}
 	return false
@@ -32,7 +35,7 @@ func (v *Vec) Equals(a *Vec) bool {
 
 // Dotp calculates the dot product of two vectors (Skalarprodukt)
 func Dotp(a, b *Vec) float64 {
-	return a[0]*b[0] + a[1]*b[1]
+	return a.x*b.x + a.y*b.y
 }
 
 // length returns the length of a vector
@@ -41,8 +44,8 @@ func (v *Vec) length() float64 {
 }
 
 // Rotate vector by rad radians
-func (v *Vec) Rotate(rad float64){
-	nx := v[0] * math.Cos(rad) - v[1] * math.Sin(rad)
-	ny := v[0] * math.Sin(rad) + v[1] * math.Cos(rad)
-	v[0], v[1] = nx, ny
+func (v *Vec) Rotate(rad float64) {
+	nx := v.x*math.Cos(rad) - v.y*math.Sin(rad)
+	ny := v.x*math.Sin(rad) + v.y*math.Cos(rad)
+	v.x, v.y = nx, ny
 }

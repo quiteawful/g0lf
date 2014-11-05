@@ -23,7 +23,7 @@ func main() {
 	testBahn.hole = Vec{75.0, 15.0}
 	testBahn.Print()
 
-	testline := Line{Vec{0, 0}, Vec{1, 1}}
+	testline := Line{Vec{0, 0}, Vec{3, 1}}
 	wall := Line{Vec{0, 10}, Vec{10, 10}}
 	fmt.Println(Intersect2(wall, testline))
 	fmt.Println(Intersect2(testline, wall))
@@ -32,18 +32,18 @@ func main() {
 
 func (b *Bahn) Print() {
 	var i, j float64
-	for i = 0; i < b.dim[0]; i++ {
+	for i = 0; i < b.dim.x; i++ {
 		fmt.Print("_")
 	}
 	fmt.Print("\n")
 
-	for i = 0; i < b.dim[1]; i++ {
-		for j = 0; j < b.dim[0]; j++ {
-			if i == b.ball.pos[1] && j == b.ball.pos[0] {
+	for i = 0; i < b.dim.y; i++ {
+		for j = 0; j < b.dim.x; j++ {
+			if i == b.ball.pos.y && j == b.ball.pos.x {
 				fmt.Print("x")
 				continue
 			}
-			if i == b.hole[1] && j == b.hole[0] {
+			if i == b.hole.y && j == b.hole.x {
 				fmt.Print("o")
 				continue
 			}
@@ -52,9 +52,9 @@ func (b *Bahn) Print() {
 		fmt.Print("|", i, "\n")
 	}
 
-	for i = 0; i < b.dim[0]; i++ {
+	for i = 0; i < b.dim.x; i++ {
 		fmt.Print("-")
 	}
 	fmt.Print("\n")
-	fmt.Println(b.dim[0], b.dim[1])
+	fmt.Println(b.dim.x, b.dim.y)
 }
