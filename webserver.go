@@ -25,11 +25,20 @@ func (s *SocketServer) listen() {
 }
 
 func (s *SocketServer) wsHandler(ws *websocket.Conn) {
+
 	log.Println("New Connection")
+
+	defer func() {
+		log.Println("Client closed connection")
+		err := ws.Close()
+		if err != nil {
+			//sth
+		}
+	}()
+
 	c := NewClient(ws)
 	s.Add(c)
 	c.listen()
-
 }
 
 func (s *SocketServer) Add(c *Client) {
