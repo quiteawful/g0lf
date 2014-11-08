@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
+	"time"
+
+	"code.google.com/p/go.net/websocket"
+)
 
 type Bahn struct {
 	dim  Vec
@@ -14,7 +20,12 @@ type Ball struct {
 }
 
 func main() {
-	fmt.Println("asdf")
+
+	http.Handle("/ws/", websocket.Handler(wsHandler))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
+	go func() {
+		http.ListenAndServe(":8181", nil)
+	}()
 
 	testBahn := new(Bahn)
 	testBahn.ball = new(Ball)
@@ -28,6 +39,15 @@ func main() {
 	fmt.Println(Intersect2(wall, testline))
 	fmt.Println(Intersect2(testline, wall))
 
+	frameNS := time.Duration(int(1e9) / 30)
+	clk := time.NewTicker(frameNS)
+
+	for {
+		select {
+		case <-clk.C:
+			//stuff
+		}
+	}
 }
 
 func (b *Bahn) Print() {
