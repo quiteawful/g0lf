@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"time"
-
-	"code.google.com/p/go.net/websocket"
 )
 
 type Bahn struct {
@@ -21,18 +20,21 @@ type Ball struct {
 
 func main() {
 
-	http.Handle("/ws/", websocket.Handler(wsHandler))
+	//websocket
+	ss := NewSocketServer("/ws/")
+	ss.listen()
+
+	//static files
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-	go func() {
-		http.ListenAndServe(":8181", nil)
-	}()
+
+	log.Fatal(http.ListenAndServe(":8181", nil))
 
 	testBahn := new(Bahn)
 	testBahn.ball = new(Ball)
 	testBahn.ball.pos = Vec{5.0, 15.0}
 	testBahn.dim = Vec{80.0, 30.0}
 	testBahn.hole = Vec{75.0, 15.0}
-	testBahn.Print()
+	//testBahn.Print()
 
 	testline := Line{Vec{0, 0}, Vec{3, 1}}
 	wall := Line{Vec{0, 10}, Vec{10, 10}}

@@ -21,6 +21,7 @@ $(document).ready(function() {
             console.log("connection open")
         }
         ws.onmessage = function(evt) {
+            console.log("got message")
         }
         ws.onclose = function() { 
             console.log("connection closed"); 
