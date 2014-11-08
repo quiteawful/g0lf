@@ -49,3 +49,9 @@ func (v *Vec) Rotate(rad float64) {
 	ny := v.x*math.Sin(rad) + v.y*math.Cos(rad)
 	v.x, v.y = nx, ny
 }
+
+// Scale scales a vector v by factor f
+func (v *Vec) Scale(f float64) {
+	v.x = v.x * f
+	v.y = v.y * f
+}
