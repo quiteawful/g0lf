@@ -10,8 +10,8 @@ func TestEquals(t *testing.T) {
 		b   Vec
 		out bool
 	}{
-		{a: Vec{x: 1.0, y: 1.0}, b: Vec{x: 1.0, y: 1.0}, out: true},
-		{a: Vec{x: 10.0000001, y: 1.0}, b: Vec{x: 1.0, y: 10.0}, out: false},
+		{a: Vec{X: 1.0, Y: 1.0}, b: Vec{X: 1.0, Y: 1.0}, out: true},
+		{a: Vec{X: 10.0000001, Y: 1.0}, b: Vec{X: 1.0, Y: 10.0}, out: false},
 		// more testcases
 	}
 
@@ -28,8 +28,8 @@ func TestAdd(t *testing.T) {
 		b Vec
 		r Vec
 	}{
-		{a: Vec{x: 1.0, y: 1.0}, b: Vec{x: 1.0, y: 1.0}, r: Vec{x: 2.0, y: 2.0}},
-		{a: Vec{x: 10.0000001, y: 1.0}, b: Vec{x: 1.0, y: 10.0}, r: Vec{x: 11.0000001, y: 11.0}},
+		{a: Vec{X: 1.0, Y: 1.0}, b: Vec{X: 1.0, Y: 1.0}, r: Vec{X: 2.0, Y: 2.0}},
+		{a: Vec{X: 10.0000001, Y: 1.0}, b: Vec{X: 1.0, Y: 10.0}, r: Vec{X: 11.0000001, Y: 11.0}},
 		// more testcases
 	}
 
@@ -46,8 +46,8 @@ func TestSub(t *testing.T) {
 		b Vec
 		r Vec
 	}{
-		{a: Vec{x: 1.0, y: 1.0}, b: Vec{x: 1.0, y: 1.0}, r: Vec{x: 0.0, y: 0.0}},
-		{a: Vec{x: 10.0000001, y: 1.0}, b: Vec{x: 1.0, y: 1.0}, r: Vec{x: 9.0000001, y: 0.0}},
+		{a: Vec{X: 1.0, Y: 1.0}, b: Vec{X: 1.0, Y: 1.0}, r: Vec{X: 0.0, Y: 0.0}},
+		{a: Vec{X: 10.0000001, Y: 1.0}, b: Vec{X: 1.0, Y: 1.0}, r: Vec{X: 9.0000001, Y: 0.0}},
 		// more testcases
 	}
 
