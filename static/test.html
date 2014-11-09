@@ -22,6 +22,7 @@ $(document).ready(function() {
         }
         ws.onmessage = function(evt) {
             console.log("got message " + evt.data);
+            ws.send("Herp");
             
         }
         ws.onError = function(evt) {

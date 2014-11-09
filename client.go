@@ -64,20 +64,21 @@ func (c *Client) listenRead() {
 		c.msg <- "Test123"
 	}()
 	var test string
-	select {
-	case <-c.quitCh:
-		c.server.Del(c)
-		return
-	default:
-		if err := websocket.JSON.Receive(c.con, &test); err != nil {
-			if err == io.EOF {
-				c.quitCh <- true
+	for {
+		select {
+		case <-c.quitCh:
+			c.server.Del(c)
+			return
+		default:
+			if err := websocket.Message.Receive(c.con, &test); err != nil {
+				if err == io.EOF {
+					c.quitCh <- true
+				} else {
+					log.Println(err.Error())
+				}
 			} else {
-				log.Println(err.Error())
+				log.Println("got: ", test)
 			}
-		} else {
-			log.Println("got: ", test)
 		}
 	}
-
 }
