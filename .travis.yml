@@ -6,3 +6,7 @@ go:
        
 before-script:     
     - go get code.google.com/p/go.net/websocket
+
+notifications:
+    irc:
+        - "tardis.nerdlife.de#g0"
