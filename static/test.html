@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>test</title>
+<style>
+    body {
+        width: 640px;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+var ws
+
+$(document).ready(function() {
+    if ("WebSocket" in window) {
+        // Let us open a web socket
+        ws = new WebSocket("ws://"+document.location.host+"/ws/test");
+        //ws.binaryType = "arraybuffer";
+        ws.onopen = function() {
+            console.log("connection open")
+        }
+        ws.onmessage = function(evt) {
+            console.log("got message " + evt.data);
+            ws.send("Herp");
+            
+        }
+        ws.onError = function(evt) {
+            console.log("error: " + evt.data)
+        }
+        ws.onclose = function(evt) { 
+            console.log("connection closed: " + evt.data); 
+        };
+
+    }
+})
+</script>
+</head>
+<body>
+</body>
+</html>

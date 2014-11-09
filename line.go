@@ -19,9 +19,9 @@ func (l *Line) Slope() (k float64, px float64, py float64) {
 		pm, pn = l.p1, l.p2
 	}
 
-	k = (pm.y - pn.y) / (pm.x - pn.x)
-	px = pm.x
-	py = pm.y
+	k = (pm.Y - pn.Y) / (pm.X - pn.X)
+	px = pm.X
+	py = pm.Y
 
 	return
 }
@@ -36,7 +36,7 @@ func Intersect2(a Line, b Line) Vec {
 }
 
 func LineAngle(a Line, b Line) float64 {
-	wa := math.Atan2(a.p1.y-a.p2.y, a.p1.x-a.p2.x)
-	wb := math.Atan2(b.p1.y-b.p2.y, b.p1.x-b.p2.x)
+	wa := math.Atan2(a.p1.Y-a.p2.Y, a.p1.X-a.p2.X)
+	wb := math.Atan2(b.p1.Y-b.p2.Y, b.p1.X-b.p2.X)
 	return 2*math.Pi - math.Abs(wa-wb)
 }
