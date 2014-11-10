@@ -3,14 +3,21 @@
 <title>test</title>
 <style>
     body {
-        width: 640px;
         margin: 0 auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
+        overflow: hidden;
     }
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://threejs.org/build/three.min.js"></script>
+<script src="3dstuff.js"></script>
 <script type="text/javascript">
 var ws
+
+$(window).load(function(){
+init();
+animate();
+});
 
 $(document).ready(function() {
     if ("WebSocket" in window) {
@@ -23,17 +30,18 @@ $(document).ready(function() {
         ws.onmessage = function(evt) {
             console.log("got message " + evt.data);
             ws.send("Herp");
-            
+
         }
         ws.onError = function(evt) {
             console.log("error: " + evt.data)
         }
-        ws.onclose = function(evt) { 
-            console.log("connection closed: " + evt.data); 
+        ws.onclose = function(evt) {
+            console.log("connection closed: " + evt.data);
         };
 
     }
 })
+
 </script>
 </head>
 <body>
