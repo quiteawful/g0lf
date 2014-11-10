@@ -51,7 +51,8 @@ func (v *Vec) Rotate(rad float64) {
 }
 
 // Scale scales a vector v by factor f
-func (v *Vec) Scale(f float64) {
+func (v *Vec) Scale(f float64) *Vec {
 	v.X = v.X * f
 	v.Y = v.Y * f
+	return v
 }
