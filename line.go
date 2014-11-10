@@ -26,13 +26,26 @@ func (l *Line) Slope() (k float64, px float64, py float64) {
 	return
 }
 
+func Parallel(a, b Line) bool {
+	ka, _, _ := a.Slope()
+	kb, _, _ := b.Slope()
+	if ka == kb {
+		return true
+	} else {
+		return false
+	}
+}
+
 //Intersect2 returns the intersection point of Line a and b as Vec
-func Intersect2(a Line, b Line) Vec {
+func Intersect2(a Line, b Line) *Vec {
+	if Parallel(a, b) {
+		return nil
+	}
 	ka, _, pay := a.Slope()
 	kb, _, pby := b.Slope()
 	x := (pby - pay) / (ka - kb)
 	y := kb*x + pby
-	return Vec{x, y}
+	return &Vec{x, y}
 }
 
 func LineAngle(a Line, b Line) float64 {
