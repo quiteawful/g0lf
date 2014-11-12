@@ -12,5 +12,5 @@ notifications:
         channels:
             - "tardis.nerdlife.de#g0"
         template:
-            - "%{repository_name}/%{branch} (#{build_number}) - Build \x033%{result} in %{duration}."
+            - "%{repository_name}/%{branch} (#%{build_number}) - Build \x033%{result} in %{duration}."
             - "Commit by %{author}: %{commit_message} %{compare_url}"
