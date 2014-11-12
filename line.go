@@ -29,7 +29,7 @@ func (l *Line) Slope() (k float64, px float64, py float64) {
 func Parallel(a, b Line) bool {
 	ka, _, _ := a.Slope()
 	kb, _, _ := b.Slope()
-	if ka == kb {
+	if math.Abs(ka) == math.Abs(kb) {
 		return true
 	} else {
 		return false
