@@ -11,11 +11,6 @@ notifications:
     irc:
         channels:
             - "tardis.nerdlife.de#g0"
-        on_success:
-            template:
-                - "%{repository_name}/%{branch} (#{build_number}) - Build ^C3%{result}^C1 in %{duration}."
-                - "Commit by %{author}: %{commit_message} %{compare_url}"
-        on_failure:
-            template:
-                - "%{repository_name}/%{branch} (#%{build_number} - Build ^C4%{result}^C1 in %{duration}"
-                - "Commit by %{author}: %{commit_message} %{compare_url}"
+        template:
+            - "%{repository_name}/%{branch} (#{build_number}) - Build \x033%{result} in %{duration}."
+            - "Commit by %{author}: %{commit_message} %{compare_url}"
