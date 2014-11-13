@@ -53,7 +53,7 @@ func main() {
 	for {
 		select {
 		case cl := <-newConn:
-			cl.msg <- "Hallo neuer client!"
+			//cl.msg <- "Hallo neuer client!"
 			cl.JSON <- testBahn
 		case derp := <-dummy:
 			_ = derp

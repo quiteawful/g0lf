@@ -8,7 +8,7 @@
         overflow: hidden;
     }
 </style>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://threejs.org/build/three.min.js"></script>
 <script src="3dstuff.js"></script>
 <script type="text/javascript">
@@ -23,7 +23,6 @@ $(document).ready(function() {
     if ("WebSocket" in window) {
         // Let us open a web socket
         ws = new WebSocket("ws://"+document.location.host+"/ws/test");
-        //ws.binaryType = "arraybuffer";
         ws.onopen = function() {
             console.log("connection open")
         }

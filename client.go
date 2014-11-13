@@ -1,10 +1,8 @@
 package main
 
 import (
-	"encoding/json"
 	"io"
 	"log"
-	"time"
 
 	"golang.org/x/net/websocket"
 )
@@ -48,12 +46,7 @@ func (c *Client) listenWrite() {
 				continue
 			}
 		case j := <-c.JSON:
-			n, err := json.Marshal(j)
-			if err != nil {
-				log.Println(err.Error())
-				continue
-			}
-			if err := websocket.JSON.Send(c.con, n); err != nil {
+			if err := websocket.JSON.Send(c.con, j); err != nil {
 				log.Println(err.Error())
 				continue
 			}
@@ -71,10 +64,6 @@ func (c *Client) Close() {
 
 func (c *Client) listenRead() {
 	log.Println("Starting Client.listenRead()")
-	go func() {
-		time.Sleep(2 * time.Second)
-		c.msg <- "Test123"
-	}()
 	var test string
 	for {
 		select {
