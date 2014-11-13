@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"io"
 	"log"
 	"time"
@@ -16,6 +17,7 @@ type Client struct {
 	server *SocketServer
 	quitCh chan bool
 	msg    chan string
+	JSON   chan interface{}
 }
 
 func NewClient(ws *websocket.Conn, s *SocketServer) *Client {
@@ -27,6 +29,7 @@ func NewClient(ws *websocket.Conn, s *SocketServer) *Client {
 		s,
 		make(chan bool),
 		make(chan string),
+		make(chan interface{}),
 	}
 }
 
@@ -42,9 +45,18 @@ func (c *Client) listenWrite() {
 		case msg := <-c.msg:
 			if err := websocket.Message.Send(c.con, msg); err != nil {
 				log.Println("Error sending message: ", err.Error())
-				return
+				continue
 			}
-			log.Println("sent message")
+		case j := <-c.JSON:
+			n, err := json.Marshal(j)
+			if err != nil {
+				log.Println(err.Error())
+				continue
+			}
+			if err := websocket.JSON.Send(c.con, n); err != nil {
+				log.Println(err.Error())
+				continue
+			}
 		case <-c.quitCh:
 			c.server.Del(c)
 			c.con.Close()

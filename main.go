@@ -18,6 +18,9 @@ type Ball struct {
 	Vel Vec
 }
 
+var newConn = make(chan *Client)
+var dummy = make(chan string)
+
 func main() {
 
 	//websocket
@@ -26,8 +29,6 @@ func main() {
 
 	//static files
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-
-	//log.Fatal(http.ListenAndServe(":8181", nil))
 
 	testBahn := new(Bahn)
 	testBahn.Ball = new(Ball)
@@ -45,8 +46,22 @@ func main() {
 	wall := Line{Vec{0, 10}, Vec{10, 10}}
 	fmt.Println(Intersect2(wall, testline))
 	fmt.Println(Intersect2(testline, wall))
-	log.Fatal(http.ListenAndServe(":8181", nil))
+	go func() {
+		log.Fatal(http.ListenAndServe(":8181", nil))
+	}()
+	log.Println("Entering main loop")
+	for {
+		select {
+		case cl := <-newConn:
+			cl.msg <- "Hallo neuer client!"
+			cl.JSON <- testBahn
+		case derp := <-dummy:
+			_ = derp
+			panic("should not be reached")
 
+		}
+
+	}
 }
 
 func (b *Bahn) Print() {

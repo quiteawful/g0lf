@@ -33,7 +33,6 @@ func (s *SocketServer) listen() {
 			s.clients[c.id] = c
 			log.Println("Added new Client, id: ", c.id)
 		}
-
 	}
 }
 
@@ -50,6 +49,7 @@ func (s *SocketServer) wsHandler(ws *websocket.Conn) {
 	}()
 	c := NewClient(ws, s)
 	s.Add(c)
+	newConn <- c
 	c.listen()
 }
 
