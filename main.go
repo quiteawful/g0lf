@@ -25,7 +25,7 @@ func main() {
 
 	//gamelogic + websocket
 	var g Game
-	g.NewGame("/ws/", 2)
+	g.NewGame("/ws/", 1)
 
 	//static files
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))

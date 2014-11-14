@@ -33,11 +33,10 @@ func (g *Game) StartGame() {
 	log.Println("Entering game loop")
 	for {
 		select {
-		case cl := <-newConn:
+		case <-newConn:
 			g.CurrSt.PlayerCount++
 			if g.CurrSt.PlayerCount == g.Opts.MaxPlayers {
 				// Put level in a map to have a way to identify the message type
-				cl.JSON <- map[string]interface{}{"leveldata": g.Tr}
 				g.SendAllPlayers(map[string]interface{}{"leveldata": g.Tr})
 			}
 		case derp := <-dummy:
