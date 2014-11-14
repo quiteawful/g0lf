@@ -53,6 +53,7 @@ func (c *Client) listenWrite() {
 		case <-c.quitCh:
 			c.server.Del(c)
 			c.con.Close()
+			c.quitCh <- true
 			return
 		}
 	}
@@ -75,7 +76,7 @@ func (c *Client) listenRead() {
 				if err == io.EOF {
 					c.quitCh <- true
 				} else {
-					log.Println(err.Error())
+					log.Println("Error receiving from socket: ", err.Error())
 				}
 			} else {
 				log.Println("got: ", test)
