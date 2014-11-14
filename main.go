@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-type Bahn struct {
+type Track struct {
 	Dim  Vec
 	Ball *Ball
 	Hole Vec
@@ -23,18 +23,19 @@ var dummy = make(chan string)
 
 func main() {
 
-	//websocket
-	ss := NewSocketServer("/ws/")
-	go ss.listen()
+	//gamelogic + websocket
+	var g Game
+	g.NewGame("/ws/", 2)
 
 	//static files
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 
-	testBahn := new(Bahn)
+	testBahn := new(Track)
 	testBahn.Ball = new(Ball)
-	testBahn.Ball.Pos = Vec{5.0, 15.0}
+	testBahn.Ball.Pos = Vec{55.0, 55.0}
 	testBahn.Dim = Vec{80.0, 30.0}
 	testBahn.Hole = Vec{75.0, 15.0}
+	g.Tr = testBahn
 	b, err := json.MarshalIndent(testBahn, "", "	")
 	if err != nil {
 		log.Fatal(err.Error())
@@ -49,23 +50,10 @@ func main() {
 	go func() {
 		log.Fatal(http.ListenAndServe(":8181", nil))
 	}()
-	log.Println("Entering main loop")
-	for {
-		select {
-		case cl := <-newConn:
-			//cl.msg <- "Hallo neuer client!"
-			// Put level in a map to have a way to identify the message type
-			cl.JSON <- map[string]interface{}{"leveldata": testBahn}
-		case derp := <-dummy:
-			_ = derp
-			panic("should not be reached")
-
-		}
-
-	}
+	g.StartGame()
 }
 
-func (b *Bahn) Print() {
+func (b *Track) Print() {
 	var i, j float64
 	for i = 0; i < b.Dim.X; i++ {
 		fmt.Print("_")

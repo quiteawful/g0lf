@@ -22,7 +22,7 @@ func NewSocketServer(name string) *SocketServer {
 }
 
 func (s *SocketServer) listen() {
-	log.Println("Starting Listener")
+	log.Println("Starting new Listener at", s.name)
 
 	http.Handle(s.name, websocket.Handler(s.wsHandler))
 	log.Println("Created handler")
