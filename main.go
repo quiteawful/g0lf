@@ -54,7 +54,8 @@ func main() {
 		select {
 		case cl := <-newConn:
 			//cl.msg <- "Hallo neuer client!"
-			cl.JSON <- testBahn
+			// Put level in a map to have a way to identify the message type
+			cl.JSON <- map[string]interface{}{"leveldata": testBahn}
 		case derp := <-dummy:
 			_ = derp
 			panic("should not be reached")
