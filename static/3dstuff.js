@@ -1,12 +1,9 @@
 function messagein(data){
-    console.log(data);
     parsed = JSON.parse(data);
-    console.log(parsed);
 
     //If this is the message with the geometry, start
     if(parsed["leveldata"] != null){
       init(parsed.leveldata);
-      animate();
     }
 }
 
@@ -41,6 +38,10 @@ function init(data) {
     wireframe: true
   });
 
+  white = new THREE.MeshBasicMaterial({
+    color: 0xffffff
+  });
+
   red = new THREE.MeshBasicMaterial({
     color: 0xff0000
   });
@@ -59,12 +60,14 @@ function init(data) {
 
   level = data;
 
+  scene = new THREE.Scene();
+
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 100;
   camera.position.y = 100;
   camera.rotation.x = -3.141 / 4;
 
-  scene = new THREE.Scene();
+  gplane = new THREE.Plane(new THREE.Vector3(0,-1,0), 0);
 
   ground = new THREE.Mesh(new THREE.PlaneGeometry(level.Dim.X, level.Dim.Y), green);
   ground.rotation.x = -3.141 / 2;
@@ -82,9 +85,16 @@ function init(data) {
   hole.position.y += 0.01;
   hole.rotation.x = -3.141 / 2;
 
+
+  linegeo = new THREE.Geometry();
+  linegeo.vertices.push(ball.position);
+  linegeo.vertices.push(hole.position);
+  shootline = new THREE.Line(linegeo, white);
+
   scene.add(ground);
   scene.add(ball);
   scene.add(hole);
+  scene.add(shootline);
   scene.add(MakeWall([0, 0], [level.Dim.X, 0], 5));
   scene.add(MakeWall([0, 0], [0, level.Dim.Y], 5));
   scene.add(MakeWall([level.Dim.X, 0], [level.Dim.X, level.Dim.Y], 5));
@@ -94,10 +104,11 @@ function init(data) {
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   document.body.appendChild(renderer.domElement);
+  animate();
 }
 
 function animate() {
   requestAnimationFrame(animate);
-  scene.rotation.y += 0.01;
+  //scene.rotation.y += 0.0025;
   renderer.render(scene, camera);
 }
