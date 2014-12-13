@@ -1,9 +1,15 @@
 function messagein(data){
     parsed = JSON.parse(data);
-
+    console.log(parsed);
     //If this is the message with the geometry, start
     if(parsed["leveldata"] != null){
       init(parsed.leveldata);
+    }
+    //{"debug": "repos", x: 42, y: 69}
+    if(parsed["debug"] != null){
+      if(parsed.debug == "repos"){
+        reposball(parsed.x,parsed.y);
+      }
     }
 }
 
@@ -29,6 +35,12 @@ function MakeWall(p1, p2, height) {
   nmesh = new THREE.Mesh(geo1, red);
   nmesh.add(new THREE.Mesh(geo2, red));
   return nmesh;
+}
+
+function reposball(x,y){
+  ball.position.x = x;
+  ball.position.z = y;
+  ball.position.y = 2.5;
 }
 
 function init(data) {
