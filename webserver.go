@@ -11,13 +11,15 @@ type SocketServer struct {
 	name    string
 	clients map[int]*Client
 	addCh   chan *Client
+	g       *Game
 }
 
-func NewSocketServer(name string) *SocketServer {
+func NewSocketServer(name string, g *Game) *SocketServer {
 	return &SocketServer{
 		name,
 		make(map[int]*Client),
 		make(chan *Client),
+		g,
 	}
 }
 

@@ -65,21 +65,23 @@ func (c *Client) Close() {
 
 func (c *Client) listenRead() {
 	log.Println("Starting Client.listenRead()")
-	var test string
+	var test GMessage
 	for {
 		select {
 		case <-c.quitCh:
 			c.server.Del(c)
 			return
 		default:
-			if err := websocket.Message.Receive(c.con, &test); err != nil {
+			if err := websocket.JSON.Receive(c.con, &test); err != nil {
 				if err == io.EOF {
 					c.quitCh <- true
 				} else {
 					log.Println("Error receiving from socket: ", err.Error())
 				}
 			} else {
-				log.Println("got: ", test)
+				log.Println("listenread got: ", test)
+				c.server.g.msg <- test
+
 			}
 		}
 	}
