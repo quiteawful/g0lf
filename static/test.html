@@ -30,6 +30,15 @@
     shootline.geometry.vertices.push(ball.position);
     shootline.geometry.vertices.push(pos);
     shootline.geometry.verticesNeedUpdate = true;
+
+    movevector = ball.position.clone().sub(pos);
+    message = {
+      type: "MOVEMENT",
+      X: movevector.x,
+      Y: movevector.z
+    }
+    console.log(message);
+    ws.send(JSON.stringify(message));
   });
 
   $(document).ready(function() {
